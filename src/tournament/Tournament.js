@@ -4,33 +4,22 @@ import AppBar from "@material-ui/core/es/AppBar/AppBar";
 import Toolbar from "@material-ui/core/es/Toolbar/Toolbar";
 import Typography from "@material-ui/core/es/Typography/Typography";
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, useRouteMatch} from "react-router-dom";
 import makeStyles from "@material-ui/core/es/styles/makeStyles";
 import TourInfoPage from "./info-page/InfoPage";
 import TourTablesPage from "./tables-page/TablesPage";
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
+import TourTeamsPage from "./teams-page/TeamsPage";
 
 const useStyles = makeStyles(theme => ({
-    tab: {
-        flexGrow: 1,
-    },
     icon: {
         marginRight: theme.spacing(2),
-    },
-    cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
     },
 }));
 
 export default function Tournament() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    let {path} = useRouteMatch();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -44,41 +33,26 @@ export default function Tournament() {
                 <Toolbar>
                     <ArrowBack className={classes.icon}/>
                     <Typography variant="h6" color="inherit" noWrap>
-                        Giai hoi cau
+                        Header
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Paper square className={classes.tab}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="fullWidth"
-                    indicatorColor="secondary"
-                    textColor="secondary"
-                    aria-label="icon label tabs example"
-                >
-                    <Tab icon={<PhoneIcon />} label="RECENTS" />
-                    <Tab icon={<FavoriteIcon />} label="FAVORITES" />
-                    <Tab icon={<PersonPinIcon />} label="NEARBY" />
-                </Tabs>
-            </Paper>
+
             <main>
-
-
                 <Switch>
-                    <Route path="/info">
+                    <Route exact path={path}>
                         <TourInfoPage/>
                     </Route>
-                    <Route path="/tables">
+                    <Route path={`${path}/tables`}>
                         <TourTablesPage/>
                     </Route>
-                    <Route path="/matchs">
+                    <Route path={`${path}/matches`}>
                         <TourInfoPage/>
                     </Route>
-                    <Route path="/teams">
-                        <TourInfoPage/>
+                    <Route path={`${path}/teams`}>
+                        <TourTeamsPage/>
                     </Route>
-                    <Route path="/scores">
+                    <Route path={`${path}/scores`}>
                         <TourInfoPage/>
                     </Route>
                 </Switch>
